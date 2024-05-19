@@ -2,6 +2,8 @@
 
 This is a restaurant search app that allows users to find nearby restaurants based on their preferences.
 
+(this was fastly gebenerated by the template we will change it later)
+
 ## Features
 
 - Search for restaurants by location, cuisine, or specific keywords
