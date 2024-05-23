@@ -22,18 +22,15 @@ app.use(
     })
 );
 
-// TODO:
-//get auth from auth0
 app.use((req, res, next) => {
-    //todo get user from auth0
     req.user = {
-        id: 1
+        id: req.oidc.isAuthenticated() ? req.oidc.user.sid : null,
     }
     next();
 });
 
 
-app.get("/restaurants", (req, res) => {
+app.get("/restaurants", authProtected, (req, res) => {
     const user_id = req.user.id;
 
     const restaurants = getRestaurants(getRestaurantsDB(), user_id);
@@ -45,9 +42,9 @@ app.get("/restaurants", (req, res) => {
 
 /* ---------------------------------------
     TO DO:
-    - Add a new endpoint for admin users ( )
-    - Check if the user is an admin (✓)
-    - Return the admin page ( )
+    - Add a new endpoint for admin users
+    - Check if the user is an admin
+    - Return the admin page
 --------------------------------------- */
 
 app.get("/admin", authProtected, (req, res) => {
