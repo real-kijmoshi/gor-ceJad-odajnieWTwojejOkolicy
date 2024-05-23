@@ -26,6 +26,12 @@ This is a restaurant search app that allows users to find nearby restaurants bas
 3. Set up environment variables: Create a `.env` file and add the necessary API keys and configuration details.
 4. Start the server: `npm start`
 
+## .env Configuration
+1. **PORT** ← The port you want to use for the web app
+2. **CLIENT_ID** ← Auth0 client ID
+3. **ISSUER_BASE_URL** ← Auth0 domain
+4. **SECRET** ← Auth0 client secret
+
 ## Usage
 
 1. Open the app in your web browser.
