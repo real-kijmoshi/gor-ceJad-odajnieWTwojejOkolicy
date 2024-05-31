@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        Admin Page
+    </title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: "Roboto", sans-serif;
+        background-color: #f5f5f5;
+    }
+
+    #restaurants {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 250px;
+        margin: 40px;
+        padding: 20px;
+        height: calc(100vh - 80px);
+        overflow-y: auto;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    #create {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    #create-restaurant-open-modal {
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+
+    .restaurant {
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin: 10px;
+        padding: 20px;
+        width: 300px;
+    }
+
+    .restaurant h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    #create-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    #create-modal-content {
+        background-color: #fff;
+        border-radius: 5px;
+        margin: 20px auto;
+        padding: 20px;
+        width: 300px;
+    }
+
+    #create-modal-content h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    #create-restaurant-form div {
+        margin-bottom: 10px;
+    }
+
+    #create-restaurant-form label {
+        display: block;
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+
+    #create-restaurant-form input[type="text"],
+    #create-restaurant-form input[type="email"],
+    #create-restaurant-form textarea {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        padding: 10px;
+        width: 100%;
+    }
+
+    #create-restaurant-form button {
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+
+    #create-restaurant-form button:hover {
+        background-color: #0056b3;
+    }
+
+    #create-restaurant-form input[type="file"] {
+        display: none;
+    }
+
+    #create-restaurant-form label[for="file"] {
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+
+    #create-restaurant-form label[for="file"]:hover {
+        background-color: #0056b3;
+    }
+
+    #message {
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding: 20px;
+        text-align: center;
+    }
+
+    #message.success {
+        background-color: #65de82;
+    }
+
+    #message.error {
+        background-color: #f57784;
+    }
+
+    #message p {
+        font-size: 16px;
+        color: #fff;
+    }
+
+    .edit {
+        background-color: #f39b2f;
+        padding: 4px;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+
+</style>
+<body>
+    <% if (locals.message) { %>
+        <div id="message" class="<%= message.type %>">
+            <p><%= message.message %></p>
+        </div>
+    <% } %>
+
+    <div id="restaurants">
+        <div id="create">
+            <button id="create-restaurant-open-modal">
+                Create Restaurant
+            </button>
+        </div>
+
+        <% restaurants.forEach((restaurant) => { %>
+            <div class="restaurant">
+
+                <h2><%= restaurant.id %>.<%= restaurant.name %></h2>
+                <a href="/admin/restaurant/<%=restaurant.id%>" class="edit">edit</a>
+            </div>
+        <% }) %>
+    </div>
+
+    <div id="create-modal">
+        <div id="create-modal-content">
+            <h2>Create Restaurant</h2>
+            <form id="create-restaurant-form" method="POST" action="/admin/add">
+                <div>
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div>
+                    <label for="adress">Adress</label>
+                    <input type="text" id="adress" name="adress" required>
+                </div>
+
+                <div>
+                    <label for="phone">Phone</label>
+                    <input type="text" id="phone" name="phone" required>
+                </div>
+
+                <div>
+                    <label for="hours">Hours</label>
+                    <input type="text" id="hours" name="hours" required>
+                </div>
+
+                <div>
+                    <label for="website">Website</label>
+                    <input type="text" id="website" name="website" required>
+                </div>
+
+                <div>
+                    <label for="keywords">Keywords</label>
+                    <input type="text" id="keywords" name="keywords" required>
+                </div>
+
+                <button type="submit">Create</button>
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+    const createRestaurantOpenModal = document.getElementById('create-restaurant-open-modal');
+    const createModal = document.getElementById('create-modal');
+    const createRestaurantForm = document.getElementById('create-restaurant-form');
+
+    createRestaurantOpenModal.addEventListener('click', () => {
+        createModal.style.display = 'block';
+    });
+
+    createModal.addEventListener('click', (event) => {
+        if (event.target === createModal) {
+            createModal.style.display = 'none';
+        }
+    });
+</script>
+</html>

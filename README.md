@@ -27,6 +27,7 @@ This is a restaurant search app that allows users to find nearby restaurants bas
 4. Start the server: `npm start`
 
 ## .env Configuration
+
 1. **PORT** ← The port you want to use for the web app
 2. **CLIENT_ID** ← Auth0 client ID
 3. **ISSUER_BASE_URL** ← Auth0 domain
